@@ -1,19 +1,26 @@
 package com.akoshrv.productservice.controller;
 
 import com.akoshrv.productservice.model.Product;
+import com.akoshrv.productservice.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
 public class ProductController {
 
+    private final ProductService productService;
+
+    @Autowired
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
+
     @GetMapping("/products")
     public List<Product> getProducts() {
-        final Product exampleProduct = new Product(1L, "Book", 10.0, "Test book", "A test book");
-        return Arrays.asList(exampleProduct);
+        return productService.findAllProducts();
     }
 
 }
