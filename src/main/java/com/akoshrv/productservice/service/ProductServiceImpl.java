@@ -19,12 +19,21 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findAllProducts() {
-        saveTestData();
         return productRepository.findAll();
     }
 
-    private void saveTestData() {
-        productRepository.save(new Product("Book", 10.0, "Book 1", "Description of the first book"));
-        productRepository.save(new Product("Book", 12.0, "Book 2", "Description of the second book"));
+    @Override
+    public Product createProduct(Product product) {
+        return productRepository.save(product);
+    }
+
+    @Override
+    public Product updateProduct(Product product) {
+        Product productToBeUpdated = productRepository.getOne(product.getId());
+        productToBeUpdated.setCategory(product.getCategory());
+        productToBeUpdated.setPrice(product.getPrice());
+        productToBeUpdated.setName(product.getName());
+        productToBeUpdated.setDescription(product.getDescription());
+        return productRepository.save(productToBeUpdated);
     }
 }

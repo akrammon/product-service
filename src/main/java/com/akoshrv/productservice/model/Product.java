@@ -45,4 +45,20 @@ public class Product {
     public String getDescription() {
         return description;
     }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

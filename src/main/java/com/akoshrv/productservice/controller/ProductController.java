@@ -3,8 +3,7 @@ package com.akoshrv.productservice.controller;
 import com.akoshrv.productservice.model.Product;
 import com.akoshrv.productservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,4 +22,13 @@ public class ProductController {
         return productService.findAllProducts();
     }
 
+    @PostMapping("/product")
+    public Product createProduct(@RequestBody Product product) {
+        return productService.createProduct(product);
+    }
+
+    @PutMapping("/product")
+    public Product updateProduct(@RequestBody Product product) {
+        return productService.updateProduct(product);
+    }
 }

@@ -7,4 +7,8 @@ import java.util.List;
 public interface ProductService {
 
     List<Product> findAllProducts();
+
+    Product createProduct(Product product);
+
+    Product updateProduct(Product product);
 }
