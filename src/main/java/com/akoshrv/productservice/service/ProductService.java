@@ -23,7 +23,7 @@ public interface ProductService {
 
     /**
      * Updates the product with the supplied Product ID.
-     * 
+     *
      * @param product
      * @return
      */
