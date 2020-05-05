@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 public class ProductController {
@@ -18,8 +19,8 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public List<Product> getProducts() {
-        return productService.findAllProducts();
+    public List<Product> getProducts(@RequestParam(value="category", required = false) String category) {
+        return productService.findAllProducts(category);
     }
 
     @PostMapping("/product")
