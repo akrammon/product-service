@@ -11,10 +11,12 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final CategoryService categoryService;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, CategoryService categoryService) {
         this.productRepository = productRepository;
+        this.categoryService = categoryService;
     }
 
     @Override
@@ -24,16 +26,27 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product createProduct(Product product) {
+        validateCategory(product.getCategory());
+
         return productRepository.save(product);
     }
 
     @Override
     public Product updateProduct(Product product) {
+        validateCategory(product.getCategory());
+
         Product productToBeUpdated = productRepository.getOne(product.getId());
         productToBeUpdated.setCategory(product.getCategory());
         productToBeUpdated.setPrice(product.getPrice());
         productToBeUpdated.setName(product.getName());
         productToBeUpdated.setDescription(product.getDescription());
+
         return productRepository.save(productToBeUpdated);
+    }
+
+    private void validateCategory(String category) {
+        if(!categoryService.isValidCategory(category)) {
+            throw new IllegalArgumentException(String.format("Category %s is invalid", category));
+        }
     }
 }
