@@ -3,14 +3,8 @@ package com.akoshrv.productservice.service;
 import com.akoshrv.productservice.model.Product;
 import com.akoshrv.productservice.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,9 +21,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findAllProducts(String category) {
+    public List<Product> findAllProducts(String category, Integer minPrice, Integer maxPrice) {
         return productRepository.findAll().stream()
                 .filter(ProductFilters.hasCategory(category))
+                .filter(ProductFilters.priceLargerThanOrEquals(minPrice))
+                .filter(ProductFilters.priceSmallerThanOrEquals(maxPrice))
                 .collect(Collectors.toList());
     }
 

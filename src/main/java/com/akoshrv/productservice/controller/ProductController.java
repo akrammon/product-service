@@ -19,8 +19,10 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public List<Product> getProducts(@RequestParam(value="category", required = false) String category) {
-        return productService.findAllProducts(category);
+    public List<Product> getProducts(@RequestParam(name="category", required = false) String category,
+                                     @RequestParam(name="minPrice", required = false) Integer minPrice,
+                                     @RequestParam(name = "maxPrice", required = false) Integer maxPrice) {
+        return productService.findAllProducts(category, minPrice, maxPrice);
     }
 
     @PostMapping("/product")

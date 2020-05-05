@@ -17,4 +17,24 @@ public final class ProductFilters {
             }
         };
     }
+
+    public static Predicate<Product> priceLargerThanOrEquals(Integer price) {
+        return product -> {
+            if(Objects.isNull(price)) {
+                return Boolean.TRUE;
+            } else {
+                return price <= product.getPrice();
+            }
+        };
+    }
+
+    public static Predicate<Product> priceSmallerThanOrEquals(Integer price) {
+        return product -> {
+            if(Objects.isNull(price)) {
+                return Boolean.TRUE;
+            } else {
+                return price >= product.getPrice();
+            }
+        };
+    }
 }

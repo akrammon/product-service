@@ -1,7 +1,6 @@
 package com.akoshrv.productservice.service;
 
 import com.akoshrv.productservice.model.Product;
-import org.springframework.lang.Nullable;
 
 import java.util.List;
 
@@ -12,7 +11,7 @@ public interface ProductService {
      *
      * @return A list of all products
      */
-    List<Product> findAllProducts(String category);
+    List<Product> findAllProducts(String category, Integer minPrice, Integer maxPrice);
 
     /**
      * Creates a new product in the system with a generated ID.
