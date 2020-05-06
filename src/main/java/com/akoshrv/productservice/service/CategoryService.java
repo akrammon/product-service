@@ -6,7 +6,7 @@ public interface CategoryService {
 
     /**
      * Gets all the valid product categories in the system.
-     * 
+     *
      * @return
      */
     List<String> getAllCategories();
