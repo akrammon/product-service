@@ -3,7 +3,10 @@ package com.akoshrv.productservice.repository;
 public enum Category {
 
     BOOK("book"),
-    MOVIE("movie");
+    MOVIE("movie"),
+    CLOTHING("clothing"),
+    ELECTRONICS("electronics"),
+    GROCERY("grocery");
 
     private final String stringValue;
 
