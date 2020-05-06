@@ -3,18 +3,18 @@ package com.akoshrv.productservice.controller;
 import com.akoshrv.productservice.model.Product;
 import com.akoshrv.productservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
-@RestController
+@RestController("productController")
 public class ProductController {
 
     private final ProductService productService;
 
     @Autowired
-    public ProductController(ProductService productService) {
+    public ProductController(@Qualifier("productService") ProductService productService) {
         this.productService = productService;
     }
 

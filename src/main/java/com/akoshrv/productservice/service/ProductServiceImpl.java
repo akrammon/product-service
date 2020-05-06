@@ -3,19 +3,21 @@ package com.akoshrv.productservice.service;
 import com.akoshrv.productservice.model.Product;
 import com.akoshrv.productservice.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
+@Service("productService")
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final CategoryService categoryService;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, CategoryService categoryService) {
+    public ProductServiceImpl(ProductRepository productRepository,
+                              @Qualifier("dummyCategoryService") CategoryService categoryService) {
         this.productRepository = productRepository;
         this.categoryService = categoryService;
     }
