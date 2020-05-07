@@ -17,7 +17,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     public ProductServiceImpl(ProductRepository productRepository,
-                              @Qualifier("dummyCategoryService") CategoryService categoryService) {
+                              @Qualifier("categoryService") CategoryService categoryService) {
         this.productRepository = productRepository;
         this.categoryService = categoryService;
     }
