@@ -4,10 +4,11 @@ import com.akoshrv.productservice.model.Product;
 import com.akoshrv.productservice.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
 @Service("productService")
 public class ProductServiceImpl implements ProductService {
@@ -24,11 +25,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findAllProducts(String category, Integer minPrice, Integer maxPrice) {
-        return productRepository.findAll().stream()
-                .filter(ProductFilters.hasCategory(category))
-                .filter(ProductFilters.priceLargerThanOrEquals(minPrice))
-                .filter(ProductFilters.priceSmallerThanOrEquals(maxPrice))
-                .collect(Collectors.toList());
+        Specification<Product> specifications = Specification
+                .where(Objects.isNull(category) ? null : Filters.hasCategorySpec(category))
+                .and(Objects.isNull(minPrice) ? null : Filters.priceLargerThanOrEqualsSpec(minPrice))
+                .and(Objects.isNull(maxPrice) ? null : Filters.priceSmallerThanOrEqualsSpec(maxPrice));
+        return productRepository.findAll(specifications);
     }
 
     @Override
