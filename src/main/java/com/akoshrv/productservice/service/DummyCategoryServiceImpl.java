@@ -4,18 +4,18 @@ import com.akoshrv.productservice.repository.Category;
 import org.springframework.stereotype.Service;
 
 import java.util.EnumSet;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service("dummyCategoryService")
 public class DummyCategoryServiceImpl implements CategoryService {
 
     @Override
-    public List<String> getAllCategories() {
+    public Set<String> getAllCategories() {
         return EnumSet.allOf(Category.class).stream()
                 .map(Category::getStringValue)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
     @Override

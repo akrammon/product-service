@@ -1,6 +1,6 @@
 package com.akoshrv.productservice.service;
 
-import java.util.List;
+import java.util.Set;
 
 public interface CategoryService {
 
@@ -9,7 +9,7 @@ public interface CategoryService {
      *
      * @return
      */
-    List<String> getAllCategories();
+    Set<String> getAllCategories();
 
     /**
      * Determines if a category matches any of the categories in the system, ignoring case.
