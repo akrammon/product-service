@@ -56,7 +56,7 @@ public class ProductControllerTest {
 
     @Test
     public void verifyPutEndpoint() throws Exception {
-        mockMvc.perform(put("/api/v1/product")
+        mockMvc.perform(put("/api/v1/product/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(PRODUCT_1)))
                 .andExpect(MockMvcResultMatchers.status().isOk());
@@ -80,7 +80,7 @@ public class ProductControllerTest {
 
     @Test
     public void verifyPostEndpointOutput() throws Exception {
-        Product newProduct = new Product("book", 13.0, "New Book", "Description of new book");
+        Product newProduct = new Product(3L, "book", 13.0, "New Book", "Description of new book");
         Product newProductCreated = new Product(3L, "book", 13.0, "New Book", "Description of new book");
         Mockito.when(productService.createProduct(newProduct))
                 .thenReturn(newProductCreated);
@@ -99,11 +99,12 @@ public class ProductControllerTest {
 
     @Test
     public void verifyPutEndpointOutput() throws Exception {
-        Product updatedProduct = new Product(1L, "book", 10.0, "Title of Book 1", "Updated description of Book 1");
-        Mockito.when(productService.updateProduct(updatedProduct))
+        Long productNumber = 1L;
+        Product updatedProduct = new Product(productNumber, "book", 10.0, "Title of Book 1", "Updated description of Book 1");
+        Mockito.when(productService.updateProduct(productNumber, updatedProduct))
                 .thenReturn(updatedProduct);
 
-        MvcResult mvcResult = mockMvc.perform(put("/api/v1/product")
+        MvcResult mvcResult = mockMvc.perform(put("/api/v1/product/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updatedProduct)))
                 .andExpect(MockMvcResultMatchers.status().isOk())

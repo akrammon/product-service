@@ -40,7 +40,7 @@ class ProductServiceTest {
         givenThatProductForProductNumberIs(TEST_PRODUCT_NUMBER, PRODUCT_1);
         givenThatCategoryIsValid(newProduct);
 
-        productService.updateProduct(newProduct);
+        productService.updateProduct(TEST_PRODUCT_NUMBER, newProduct);
 
         Mockito.verify(productRepository, Mockito.times(1)).findByProductNumber(TEST_PRODUCT_NUMBER);
         Mockito.verify(productRepository, Mockito.times(1)).save(newProduct);
@@ -54,7 +54,7 @@ class ProductServiceTest {
         givenThatCategoryIsInvalid(newProduct);
 
         IllegalArgumentException exception = org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            productService.updateProduct(newProduct);
+            productService.updateProduct(TEST_PRODUCT_NUMBER, newProduct);
         });
 
         Assertions.assertThat(exception.getMessage()).contains(newProduct.getCategory());
