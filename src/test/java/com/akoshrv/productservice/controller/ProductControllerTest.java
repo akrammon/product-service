@@ -40,7 +40,7 @@ public class ProductControllerTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
-    public void verifyGetEndpoint() throws Exception {
+    public void verifyGetAllEndpoint() throws Exception {
         mockMvc.perform(get("/api/v1/products")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
@@ -56,9 +56,15 @@ public class ProductControllerTest {
 
     @Test
     public void verifyPutEndpoint() throws Exception {
-        mockMvc.perform(put("/api/v1/product/1")
+        mockMvc.perform(put("/api/v1/product/{productNumber}", PRODUCT_1.getProductNumber())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(PRODUCT_1)))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    public void verifyDeleteEndpoint() throws Exception {
+        mockMvc.perform(delete("/api/v1/product/{productNumber}", PRODUCT_1.getProductNumber()))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
@@ -104,7 +110,7 @@ public class ProductControllerTest {
         Mockito.when(productService.updateProduct(productNumber, updatedProduct))
                 .thenReturn(updatedProduct);
 
-        MvcResult mvcResult = mockMvc.perform(put("/api/v1/product/1")
+        MvcResult mvcResult = mockMvc.perform(put("/api/v1/product/{productNumber}", productNumber)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updatedProduct)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
