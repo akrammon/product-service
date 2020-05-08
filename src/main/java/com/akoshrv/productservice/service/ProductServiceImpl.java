@@ -54,6 +54,12 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.save(updatedProduct);
     }
 
+    @Override
+    public void deleteProduct(Long productNumber) {
+        Product product = productRepository.findByProductNumber(productNumber);
+        productRepository.delete(product);
+    }
+
     private void validateCategory(String category) {
         if(!categoryService.isValidCategory(category)) {
             throw new IllegalArgumentException(String.format("Category %s is invalid", category));

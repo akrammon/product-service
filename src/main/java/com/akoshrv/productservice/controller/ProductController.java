@@ -40,4 +40,9 @@ public class ProductController {
     public Product updateProduct(@PathVariable("productNumber") Long productNumber, @RequestBody Product product) {
         return productService.updateProduct(productNumber, product);
     }
+
+    @DeleteMapping(value="/api/v1/product/{productNumber}")
+    public void delete(@PathVariable("productNumber") Long productNumber) {
+        productService.deleteProduct(productNumber);
+    }
 }

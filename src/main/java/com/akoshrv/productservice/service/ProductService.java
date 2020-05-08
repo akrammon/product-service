@@ -38,4 +38,6 @@ public interface ProductService {
      * @throws IllegalArgumentException if the provided category is invalid
      */
     Product updateProduct(Long productNumber, Product product);
+
+    void deleteProduct(Long productNumber);
 }
