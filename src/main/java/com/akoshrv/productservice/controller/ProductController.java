@@ -36,8 +36,8 @@ public class ProductController {
         return productService.createProduct(product);
     }
 
-    @PutMapping(value = "/api/v1/product", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Product updateProduct(@RequestBody Product product) {
-        return productService.updateProduct(product);
+    @PutMapping(value = "/api/v1/product/{productNumber}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Product updateProduct(@PathVariable("productNumber") Long productNumber, @RequestBody Product product) {
+        return productService.updateProduct(productNumber, product);
     }
 }

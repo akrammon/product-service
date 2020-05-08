@@ -37,5 +37,5 @@ public interface ProductService {
      * @return The updated Product
      * @throws IllegalArgumentException if the provided category is invalid
      */
-    Product updateProduct(Product product);
+    Product updateProduct(Long productNumber, Product product);
 }
