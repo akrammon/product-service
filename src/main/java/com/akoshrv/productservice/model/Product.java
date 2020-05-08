@@ -22,7 +22,8 @@ public class Product {
     private String name;
     private String description;
 
-    Product() {
+    //needed by JPA
+    private Product() {
     }
 
     public Product(String category, Double price, String name, String description) {
