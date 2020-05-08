@@ -19,6 +19,8 @@ public interface ProductService {
      */
     List<Product> findAllProducts(String category, Integer minPrice, Integer maxPrice);
 
+    Product findProductByProductNumber(Long productNumber);
+
     /**
      * Creates a new product in the system with a generated ID.
      *

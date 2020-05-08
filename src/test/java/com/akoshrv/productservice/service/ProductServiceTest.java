@@ -10,11 +10,14 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.UUID;
+
 @ExtendWith(MockitoExtension.class)
 class ProductServiceTest {
 
-    private static final Long TEST_ID = 1L;
-    private static final Product PRODUCT_1 = new Product(TEST_ID, "book", 10.0, "old name", "old description");
+    private static final UUID TEST_UUID = UUID.randomUUID();
+    private static final Long TEST_PRODUCT_NUMBER = 1L;
+    private static final Product PRODUCT_1 = new Product(TEST_UUID, TEST_PRODUCT_NUMBER, "book", 10.0, "old name", "old description");
 
     @Mock
     private ProductRepository productRepository;
@@ -32,21 +35,21 @@ class ProductServiceTest {
 
     @Test
     public void updateProductShouldUpdateInTheRepository() {
-        Product newProduct = new Product(TEST_ID, "book", 9.5, "old name", "new description");
+        Product newProduct = new Product(TEST_UUID, TEST_PRODUCT_NUMBER, "book", 9.5, "old name", "new description");
 
-        givenThatProductForIdIs(TEST_ID, PRODUCT_1);
+        givenThatProductForProductNumberIs(TEST_PRODUCT_NUMBER, PRODUCT_1);
         givenThatCategoryIsValid(newProduct);
 
         productService.updateProduct(newProduct);
 
-        Mockito.verify(productRepository, Mockito.times(1)).getOne(TEST_ID);
+        Mockito.verify(productRepository, Mockito.times(1)).findByProductNumber(TEST_PRODUCT_NUMBER);
         Mockito.verify(productRepository, Mockito.times(1)).save(newProduct);
         Mockito.verifyNoMoreInteractions(productRepository);
     }
 
     @Test
     public void updateShouldThrowExceptionIfCategoryIsInvalid() {
-        Product newProduct = new Product(TEST_ID, "invalid category", 9.5, "old name", "new description");
+        Product newProduct = new Product(TEST_UUID, TEST_PRODUCT_NUMBER, "invalid category", 9.5, "old name", "new description");
 
         givenThatCategoryIsInvalid(newProduct);
 
@@ -59,7 +62,7 @@ class ProductServiceTest {
 
     @Test
     public void createShouldThrowExceptionIfCategoryIsInvalid() {
-        Product newProduct = new Product(TEST_ID, "invalid category", 9.5, "old name", "new description");
+        Product newProduct = new Product(TEST_PRODUCT_NUMBER, "invalid category", 9.5, "old name", "new description");
 
         givenThatCategoryIsInvalid(newProduct);
 
@@ -70,8 +73,8 @@ class ProductServiceTest {
         Assertions.assertThat(exception.getMessage()).contains(newProduct.getCategory());
     }
 
-    private void givenThatProductForIdIs(Long id, Product product) {
-        Mockito.when(productRepository.getOne(id))
+    private void givenThatProductForProductNumberIs(Long productNumber, Product product) {
+        Mockito.when(productRepository.findByProductNumber(productNumber))
                 .thenReturn(product);
     }
 

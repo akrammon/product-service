@@ -1,17 +1,22 @@
 package com.akoshrv.productservice.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.NaturalId;
+
+import javax.persistence.*;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @JsonIgnore
+    private UUID id;
+    @NaturalId(mutable = true)
+    @Column(nullable = false, unique = true, updatable = true)
+    private Long productNumber;
     private String category;
     private Double price;
     private String name;
@@ -27,16 +32,29 @@ public class Product {
         this.description = description;
     }
 
-    public Product(Long id, String category, Double price, String name, String description) {
-        this.id = id;
+    public Product(Long productNumber, String category, Double price, String name, String description) {
+        this.productNumber = productNumber;
         this.category = category;
         this.price = price;
         this.name = name;
         this.description = description;
     }
 
-    public Long getId() {
+    public Product(UUID id, Long productNumber, String category, Double price, String name, String description) {
+        this.id = id;
+        this.productNumber = productNumber;
+        this.category = category;
+        this.price = price;
+        this.name = name;
+        this.description = description;
+    }
+
+    public UUID getId() {
         return id;
+    }
+
+    public Long getProductNumber() {
+        return productNumber;
     }
 
     public String getCategory() {
@@ -53,6 +71,14 @@ public class Product {
 
     public String getDescription() {
         return description;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setProductNumber(Long productNumber) {
+        this.productNumber = productNumber;
     }
 
     public void setCategory(String category) {
@@ -76,7 +102,7 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return Objects.equals(id, product.id) &&
+        return Objects.equals(productNumber, product.productNumber) &&
                 Objects.equals(category, product.category) &&
                 Objects.equals(price, product.price) &&
                 Objects.equals(name, product.name) &&
@@ -85,6 +111,6 @@ public class Product {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, category, price, name, description);
+        return Objects.hash(productNumber, category, price, name, description);
     }
 }

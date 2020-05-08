@@ -33,6 +33,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Product findProductByProductNumber(Long productNumber) {
+        return productRepository.findByProductNumber(productNumber);
+    }
+
+    @Override
     public Product createProduct(Product product) {
         validateCategory(product.getCategory());
 
@@ -43,13 +48,10 @@ public class ProductServiceImpl implements ProductService {
     public Product updateProduct(Product product) {
         validateCategory(product.getCategory());
 
-        Product productToBeUpdated = productRepository.getOne(product.getId());
-        productToBeUpdated.setCategory(product.getCategory());
-        productToBeUpdated.setPrice(product.getPrice());
-        productToBeUpdated.setName(product.getName());
-        productToBeUpdated.setDescription(product.getDescription());
+        Product foundProduct = productRepository.findByProductNumber(product.getProductNumber());
+        Product updatedProduct = new Product(foundProduct.getId(), product.getProductNumber(), product.getCategory(), product.getPrice(), product.getName(), product.getDescription());
 
-        return productRepository.save(productToBeUpdated);
+        return productRepository.save(updatedProduct);
     }
 
     private void validateCategory(String category) {

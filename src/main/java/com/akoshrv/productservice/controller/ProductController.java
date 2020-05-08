@@ -26,6 +26,11 @@ public class ProductController {
         return productService.findAllProducts(category, minPrice, maxPrice);
     }
 
+    @GetMapping(value = "/api/v1/product/{productNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Product getProduct(@PathVariable("productNumber") Long productNumber) {
+        return productService.findProductByProductNumber(productNumber);
+    }
+
     @PostMapping(value = "/api/v1/product", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Product createProduct(@RequestBody Product product) {
         return productService.createProduct(product);
