@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 
 @RestController("productController")
@@ -22,7 +20,7 @@ public class ProductController {
     }
 
     @GetMapping(value = "/api/v1/products", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Product> getProducts(@RequestParam(name="category", required = false) String category,
+    public Set<Product> getProducts(@RequestParam(name="category", required = false) String category,
                                      @RequestParam(name="minPrice", required = false) Integer minPrice,
                                      @RequestParam(name = "maxPrice", required = false) Integer maxPrice) {
         return productService.findAllProducts(category, minPrice, maxPrice);
@@ -32,15 +30,13 @@ public class ProductController {
     public Set<Product> getProductsForCategory(@PathVariable("category") String category,
                                                @RequestParam(name="minPrice", required = false) Integer minPrice,
                                                @RequestParam(name = "maxPrice", required = false) Integer maxPrice) {
-        //TODO
-        return Collections.emptySet();
+        return productService.findProductsByCategory(category, minPrice, maxPrice);
     }
 
     @GetMapping(value = "/api/v1/products/{category}/{productCode}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Product getProductOfCategory(@PathVariable("category") String category,
                                         @PathVariable("productCode") String productCode) {
-        //TODO
-        return null;
+        return productService.findProductByCategoryAndProductCode(category, productCode);
     }
 
     @PostMapping(value = "/api/v1/product", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -52,14 +48,12 @@ public class ProductController {
     public Product updateProduct(@PathVariable("category") String category,
                                  @PathVariable("productCode") String productCode,
                                  @RequestBody Product product) {
-        //TODO
-        return productService.updateProduct(productCode, product);
+        return productService.updateProduct(category, productCode, product);
     }
 
     @DeleteMapping(value="/api/v1/product/{category}/{productCode}")
     public void delete(@PathVariable("category") String category,
                        @PathVariable("productCode") String productCode) {
-        //TODO
-        productService.deleteProduct(productCode);
+        productService.deleteProduct(category, productCode);
     }
 }

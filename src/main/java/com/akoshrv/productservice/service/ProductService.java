@@ -2,7 +2,7 @@ package com.akoshrv.productservice.service;
 
 import com.akoshrv.productservice.model.Product;
 
-import java.util.List;
+import java.util.Set;
 
 public interface ProductService {
 
@@ -17,9 +17,12 @@ public interface ProductService {
      *
      * @return All the products that fulfill the specified filter criteria
      */
-    List<Product> findAllProducts(String category, Integer minPrice, Integer maxPrice);
+    Set<Product> findAllProducts(String category, Integer minPrice, Integer maxPrice);
 
-    Product findProductByProductCode(String productCode);
+    Set<Product> findProductsByCategory(String category, Integer minPrice, Integer maxPrice);
+
+    Product findProductByCategoryAndProductCode(String category, String productCode);
+
 
     /**
      * Creates a new product in the system with a generated ID.
@@ -37,7 +40,7 @@ public interface ProductService {
      * @return The updated Product
      * @throws IllegalArgumentException if the provided category is invalid
      */
-    Product updateProduct(String productCode, Product product);
+    Product updateProduct(String category, String productCode, Product product);
 
-    void deleteProduct(String productCode);
+    void deleteProduct(String category, String productCode);
 }

@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Service("productService")
 public class ProductServiceImpl implements ProductService {
@@ -24,17 +25,27 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findAllProducts(String category, Integer minPrice, Integer maxPrice) {
+    public Set<Product> findAllProducts(String category, Integer minPrice, Integer maxPrice) {
         Specification<Product> specifications = Specification
                 .where(Objects.isNull(category) ? null : Filters.hasCategorySpec(category))
                 .and(Objects.isNull(minPrice) ? null : Filters.priceLargerThanOrEqualsSpec(minPrice))
                 .and(Objects.isNull(maxPrice) ? null : Filters.priceSmallerThanOrEqualsSpec(maxPrice));
-        return productRepository.findAll(specifications);
+        return new HashSet<>(productRepository.findAll(specifications));
     }
 
     @Override
-    public Product findProductByProductCode(String productCode) {
-        return productRepository.findByProductCode(productCode);
+    public Set<Product> findProductsByCategory(String category, Integer minPrice, Integer maxPrice) {
+        Specification<Product> specifications = Specification
+                .where(Filters.hasCategorySpec(category))
+                .and(Objects.isNull(minPrice) ? null : Filters.priceLargerThanOrEqualsSpec(minPrice))
+                .and(Objects.isNull(maxPrice) ? null : Filters.priceSmallerThanOrEqualsSpec(maxPrice));
+
+        return new HashSet<>(productRepository.findAll(specifications));
+    }
+
+    @Override
+    public Product findProductByCategoryAndProductCode(String category, String productCode) {
+        return productRepository.findByCategoryAndProductCode(category, productCode);
     }
 
     @Override
@@ -45,18 +56,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateProduct(String productNumber, Product product) {
+    public Product updateProduct(String category, String productCode, Product product) {
         validateCategory(product.getCategory());
 
-        Product foundProduct = productRepository.findByProductCode(productNumber);
+        Product foundProduct = productRepository.findByCategoryAndProductCode(category, productCode);
         Product updatedProduct = new Product(foundProduct.getId(), product.getProductCode(), product.getCategory(), product.getPrice(), product.getName(), product.getDescription());
 
         return productRepository.save(updatedProduct);
     }
 
     @Override
-    public void deleteProduct(String productCode) {
-        Product product = productRepository.findByProductCode(productCode);
+    public void deleteProduct(String category, String productCode) {
+        Product product = productRepository.findByCategoryAndProductCode(category, productCode);
         productRepository.delete(product);
     }
 

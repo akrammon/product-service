@@ -18,8 +18,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
@@ -71,7 +71,7 @@ public class ProductControllerTest {
     @Test
     public void verifyGetEndpointOutput() throws Exception {
         Mockito.when(productService.findAllProducts(null, null, null))
-                .thenReturn(Arrays.asList(PRODUCT_1, PRODUCT_2));
+                .thenReturn(Set.of(PRODUCT_1, PRODUCT_2));
 
         MvcResult mvcResult = mockMvc.perform(get("/api/v1/products")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -107,7 +107,7 @@ public class ProductControllerTest {
     public void verifyPutEndpointOutput() throws Exception {
         String productCode = "PRODUCT_CODE_1";
         Product updatedProduct = new Product(productCode, "book", 10.0, "Title of Book 1", "Updated description of Book 1");
-        Mockito.when(productService.updateProduct(productCode, updatedProduct))
+        Mockito.when(productService.updateProduct("book", productCode, updatedProduct))
                 .thenReturn(updatedProduct);
 
         MvcResult mvcResult = mockMvc.perform(put("/api/v1/product/{productCode}", productCode)

@@ -17,7 +17,8 @@ class ProductServiceTest {
 
     private static final UUID TEST_UUID = UUID.randomUUID();
     private static final String TEST_PRODUCT_CODE = "PRODUCT_CODE";
-    private static final Product PRODUCT_1 = new Product(TEST_UUID, TEST_PRODUCT_CODE, "book", 10.0, "old name", "old description");
+    private static final String TEST_CATEGORY = "book";
+    private static final Product PRODUCT_1 = new Product(TEST_UUID, TEST_PRODUCT_CODE, TEST_CATEGORY, 10.0, "old name", "old description");
 
     @Mock
     private ProductRepository productRepository;
@@ -35,12 +36,12 @@ class ProductServiceTest {
 
     @Test
     public void updateProductShouldUpdateInTheRepository() {
-        Product newProduct = new Product(TEST_UUID, TEST_PRODUCT_CODE, "book", 9.5, "old name", "new description");
+        Product newProduct = new Product(TEST_UUID, TEST_PRODUCT_CODE, TEST_CATEGORY, 9.5, "old name", "new description");
 
         givenThatProductForProductNumberIs(TEST_PRODUCT_CODE, PRODUCT_1);
         givenThatCategoryIsValid(newProduct);
 
-        productService.updateProduct(TEST_PRODUCT_CODE, newProduct);
+        productService.updateProduct(TEST_CATEGORY, TEST_PRODUCT_CODE, newProduct);
 
         Mockito.verify(productRepository, Mockito.times(1)).findByProductCode(TEST_PRODUCT_CODE);
         Mockito.verify(productRepository, Mockito.times(1)).save(newProduct);
@@ -54,7 +55,7 @@ class ProductServiceTest {
         givenThatCategoryIsInvalid(newProduct);
 
         IllegalArgumentException exception = org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            productService.updateProduct(TEST_PRODUCT_CODE, newProduct);
+            productService.updateProduct(TEST_CATEGORY, TEST_PRODUCT_CODE, newProduct);
         });
 
         Assertions.assertThat(exception.getMessage()).contains(newProduct.getCategory());
