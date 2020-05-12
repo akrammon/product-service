@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 @RestController("productController")
 public class ProductController {
@@ -26,9 +28,19 @@ public class ProductController {
         return productService.findAllProducts(category, minPrice, maxPrice);
     }
 
-    @GetMapping(value = "/api/v1/product/{productCode}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Product getProduct(@PathVariable("productCode") String productCode) {
-        return productService.findProductByProductCode(productCode);
+    @GetMapping(value = "/api/v1/products/{category}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Set<Product> getProductsForCategory(@PathVariable("category") String category,
+                                               @RequestParam(name="minPrice", required = false) Integer minPrice,
+                                               @RequestParam(name = "maxPrice", required = false) Integer maxPrice) {
+        //TODO
+        return Collections.emptySet();
+    }
+
+    @GetMapping(value = "/api/v1/products/{category}/{productCode}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Product getProductOfCategory(@PathVariable("category") String category,
+                                        @PathVariable("productCode") String productCode) {
+        //TODO
+        return null;
     }
 
     @PostMapping(value = "/api/v1/product", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -36,13 +48,18 @@ public class ProductController {
         return productService.createProduct(product);
     }
 
-    @PutMapping(value = "/api/v1/product/{productCode}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Product updateProduct(@PathVariable("productCode") String productCode, @RequestBody Product product) {
+    @PutMapping(value = "/api/v1/product/{category}/{productCode}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Product updateProduct(@PathVariable("category") String category,
+                                 @PathVariable("productCode") String productCode,
+                                 @RequestBody Product product) {
+        //TODO
         return productService.updateProduct(productCode, product);
     }
 
-    @DeleteMapping(value="/api/v1/product/{productCode}")
-    public void delete(@PathVariable("productCode") String productCode) {
+    @DeleteMapping(value="/api/v1/product/{category}/{productCode}")
+    public void delete(@PathVariable("category") String category,
+                       @PathVariable("productCode") String productCode) {
+        //TODO
         productService.deleteProduct(productCode);
     }
 }
