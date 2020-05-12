@@ -38,12 +38,12 @@ class ProductServiceTest {
     public void updateProductShouldUpdateInTheRepository() {
         Product newProduct = new Product(TEST_UUID, TEST_PRODUCT_CODE, TEST_CATEGORY, 9.5, "old name", "new description");
 
-        givenThatProductForProductNumberIs(TEST_PRODUCT_CODE, PRODUCT_1);
+        givenThatProductForCategoryAndProductCodeIs(TEST_CATEGORY, TEST_PRODUCT_CODE, PRODUCT_1);
         givenThatCategoryIsValid(newProduct);
 
         productService.updateProduct(TEST_CATEGORY, TEST_PRODUCT_CODE, newProduct);
 
-        Mockito.verify(productRepository, Mockito.times(1)).findByProductCode(TEST_PRODUCT_CODE);
+        Mockito.verify(productRepository, Mockito.times(1)).findByCategoryAndProductCode(TEST_CATEGORY, TEST_PRODUCT_CODE);
         Mockito.verify(productRepository, Mockito.times(1)).save(newProduct);
         Mockito.verifyNoMoreInteractions(productRepository);
     }
@@ -74,8 +74,8 @@ class ProductServiceTest {
         Assertions.assertThat(exception.getMessage()).contains(newProduct.getCategory());
     }
 
-    private void givenThatProductForProductNumberIs(String productCode, Product product) {
-        Mockito.when(productRepository.findByProductCode(productCode))
+    private void givenThatProductForCategoryAndProductCodeIs(String category, String productCode, Product product) {
+        Mockito.when(productRepository.findByCategoryAndProductCode(category, productCode))
                 .thenReturn(product);
     }
 
