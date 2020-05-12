@@ -29,8 +29,8 @@ import java.util.List;
 @AutoConfigureTestDatabase
 public class ProductApplicationIntegrationTest {
 
-    private static final Product PRODUCT_1 = new Product(1L, "book", 10.0, "Title of Book", "Description of Book");
-    private static final Product PRODUCT_2 = new Product(2L, "movie", 12.0, "Title of Movie", "Description of Movie");
+    private static final Product PRODUCT_1 = new Product("PRODUCT_CODE_1", "book", 10.0, "Title of Book", "Description of Book");
+    private static final Product PRODUCT_2 = new Product("PRODUCT_CODE_2", "movie", 12.0, "Title of Movie", "Description of Movie");
 
     @Autowired
     private MockMvc mockMvc;
@@ -65,7 +65,7 @@ public class ProductApplicationIntegrationTest {
     public void getOneShouldReturnSingleProduct() throws Exception {
         saveTestProductsToDatabase(PRODUCT_1, PRODUCT_2);
 
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/product/{productNumber}", PRODUCT_1.getProductNumber())
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/product/{productCode}", PRODUCT_1.getProductCode())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -91,11 +91,11 @@ public class ProductApplicationIntegrationTest {
 
     @Test
     public void putShouldUpdateProduct() throws Exception {
-        Product updatedProduct = new Product(PRODUCT_1.getProductNumber(), PRODUCT_1.getCategory(), 9.99, "A new title", "A new description");
+        Product updatedProduct = new Product(PRODUCT_1.getProductCode(), PRODUCT_1.getCategory(), 9.99, "A new title", "A new description");
 
         saveTestProductsToDatabase(PRODUCT_1, PRODUCT_2);
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/product/{productNumber}", updatedProduct.getProductNumber())
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/product/{productCode}", updatedProduct.getProductCode())
                 .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(updatedProduct)))
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
@@ -107,7 +107,7 @@ public class ProductApplicationIntegrationTest {
     public void deleteShouldDeleteProduct() throws Exception {
         saveTestProductsToDatabase(PRODUCT_1, PRODUCT_2);
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/product/{productNumber}", PRODUCT_1.getProductNumber()))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/product/{productCode}", PRODUCT_1.getProductCode()))
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
         List<Product> result = productRepository.findAll();

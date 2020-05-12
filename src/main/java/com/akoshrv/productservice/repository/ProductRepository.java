@@ -8,5 +8,5 @@ import java.util.UUID;
 
 public interface ProductRepository extends JpaRepository<Product, UUID>, JpaSpecificationExecutor<Product> {
 
-    Product findByProductNumber(Long productNumber);
+    Product findByProductCode(String productCode);
 }

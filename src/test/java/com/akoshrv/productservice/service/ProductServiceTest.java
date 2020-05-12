@@ -16,8 +16,8 @@ import java.util.UUID;
 class ProductServiceTest {
 
     private static final UUID TEST_UUID = UUID.randomUUID();
-    private static final Long TEST_PRODUCT_NUMBER = 1L;
-    private static final Product PRODUCT_1 = new Product(TEST_UUID, TEST_PRODUCT_NUMBER, "book", 10.0, "old name", "old description");
+    private static final String TEST_PRODUCT_CODE = "PRODUCT_CODE";
+    private static final Product PRODUCT_1 = new Product(TEST_UUID, TEST_PRODUCT_CODE, "book", 10.0, "old name", "old description");
 
     @Mock
     private ProductRepository productRepository;
@@ -35,26 +35,26 @@ class ProductServiceTest {
 
     @Test
     public void updateProductShouldUpdateInTheRepository() {
-        Product newProduct = new Product(TEST_UUID, TEST_PRODUCT_NUMBER, "book", 9.5, "old name", "new description");
+        Product newProduct = new Product(TEST_UUID, TEST_PRODUCT_CODE, "book", 9.5, "old name", "new description");
 
-        givenThatProductForProductNumberIs(TEST_PRODUCT_NUMBER, PRODUCT_1);
+        givenThatProductForProductNumberIs(TEST_PRODUCT_CODE, PRODUCT_1);
         givenThatCategoryIsValid(newProduct);
 
-        productService.updateProduct(TEST_PRODUCT_NUMBER, newProduct);
+        productService.updateProduct(TEST_PRODUCT_CODE, newProduct);
 
-        Mockito.verify(productRepository, Mockito.times(1)).findByProductNumber(TEST_PRODUCT_NUMBER);
+        Mockito.verify(productRepository, Mockito.times(1)).findByProductCode(TEST_PRODUCT_CODE);
         Mockito.verify(productRepository, Mockito.times(1)).save(newProduct);
         Mockito.verifyNoMoreInteractions(productRepository);
     }
 
     @Test
     public void updateShouldThrowExceptionIfCategoryIsInvalid() {
-        Product newProduct = new Product(TEST_UUID, TEST_PRODUCT_NUMBER, "invalid category", 9.5, "old name", "new description");
+        Product newProduct = new Product(TEST_UUID, TEST_PRODUCT_CODE, "invalid category", 9.5, "old name", "new description");
 
         givenThatCategoryIsInvalid(newProduct);
 
         IllegalArgumentException exception = org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            productService.updateProduct(TEST_PRODUCT_NUMBER, newProduct);
+            productService.updateProduct(TEST_PRODUCT_CODE, newProduct);
         });
 
         Assertions.assertThat(exception.getMessage()).contains(newProduct.getCategory());
@@ -62,7 +62,7 @@ class ProductServiceTest {
 
     @Test
     public void createShouldThrowExceptionIfCategoryIsInvalid() {
-        Product newProduct = new Product(TEST_PRODUCT_NUMBER, "invalid category", 9.5, "old name", "new description");
+        Product newProduct = new Product(TEST_PRODUCT_CODE, "invalid category", 9.5, "old name", "new description");
 
         givenThatCategoryIsInvalid(newProduct);
 
@@ -73,8 +73,8 @@ class ProductServiceTest {
         Assertions.assertThat(exception.getMessage()).contains(newProduct.getCategory());
     }
 
-    private void givenThatProductForProductNumberIs(Long productNumber, Product product) {
-        Mockito.when(productRepository.findByProductNumber(productNumber))
+    private void givenThatProductForProductNumberIs(String productCode, Product product) {
+        Mockito.when(productRepository.findByProductCode(productCode))
                 .thenReturn(product);
     }
 

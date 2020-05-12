@@ -19,7 +19,7 @@ public interface ProductService {
      */
     List<Product> findAllProducts(String category, Integer minPrice, Integer maxPrice);
 
-    Product findProductByProductNumber(Long productNumber);
+    Product findProductByProductCode(String productCode);
 
     /**
      * Creates a new product in the system with a generated ID.
@@ -37,7 +37,7 @@ public interface ProductService {
      * @return The updated Product
      * @throws IllegalArgumentException if the provided category is invalid
      */
-    Product updateProduct(Long productNumber, Product product);
+    Product updateProduct(String productCode, Product product);
 
-    void deleteProduct(Long productNumber);
+    void deleteProduct(String productCode);
 }

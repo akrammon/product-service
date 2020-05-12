@@ -26,9 +26,9 @@ public class ProductController {
         return productService.findAllProducts(category, minPrice, maxPrice);
     }
 
-    @GetMapping(value = "/api/v1/product/{productNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Product getProduct(@PathVariable("productNumber") Long productNumber) {
-        return productService.findProductByProductNumber(productNumber);
+    @GetMapping(value = "/api/v1/product/{productCode}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Product getProduct(@PathVariable("productCode") String productCode) {
+        return productService.findProductByProductCode(productCode);
     }
 
     @PostMapping(value = "/api/v1/product", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -36,13 +36,13 @@ public class ProductController {
         return productService.createProduct(product);
     }
 
-    @PutMapping(value = "/api/v1/product/{productNumber}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Product updateProduct(@PathVariable("productNumber") Long productNumber, @RequestBody Product product) {
-        return productService.updateProduct(productNumber, product);
+    @PutMapping(value = "/api/v1/product/{productCode}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Product updateProduct(@PathVariable("productCode") String productCode, @RequestBody Product product) {
+        return productService.updateProduct(productCode, product);
     }
 
-    @DeleteMapping(value="/api/v1/product/{productNumber}")
-    public void delete(@PathVariable("productNumber") Long productNumber) {
-        productService.deleteProduct(productNumber);
+    @DeleteMapping(value="/api/v1/product/{productCode}")
+    public void delete(@PathVariable("productCode") String productCode) {
+        productService.deleteProduct(productCode);
     }
 }

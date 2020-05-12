@@ -16,7 +16,7 @@ public class Product {
     private UUID id;
     @NaturalId(mutable = true)
     @Column(nullable = false, unique = true, updatable = true)
-    private Long productNumber;
+    private String productCode;
     private String category;
     private Double price;
     private String name;
@@ -33,17 +33,17 @@ public class Product {
         this.description = description;
     }
 
-    public Product(Long productNumber, String category, Double price, String name, String description) {
-        this.productNumber = productNumber;
+    public Product(String productCode, String category, Double price, String name, String description) {
+        this.productCode = productCode;
         this.category = category;
         this.price = price;
         this.name = name;
         this.description = description;
     }
 
-    public Product(UUID id, Long productNumber, String category, Double price, String name, String description) {
+    public Product(UUID id, String productCode, String category, Double price, String name, String description) {
         this.id = id;
-        this.productNumber = productNumber;
+        this.productCode = productCode;
         this.category = category;
         this.price = price;
         this.name = name;
@@ -54,8 +54,8 @@ public class Product {
         return id;
     }
 
-    public Long getProductNumber() {
-        return productNumber;
+    public String getProductCode() {
+        return productCode;
     }
 
     public String getCategory() {
@@ -78,8 +78,8 @@ public class Product {
         this.id = id;
     }
 
-    public void setProductNumber(Long productNumber) {
-        this.productNumber = productNumber;
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
     }
 
     public void setCategory(String category) {
@@ -103,7 +103,7 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return Objects.equals(productNumber, product.productNumber) &&
+        return Objects.equals(productCode, product.productCode) &&
                 Objects.equals(category, product.category) &&
                 Objects.equals(price, product.price) &&
                 Objects.equals(name, product.name) &&
@@ -112,6 +112,6 @@ public class Product {
 
     @Override
     public int hashCode() {
-        return Objects.hash(productNumber, category, price, name, description);
+        return Objects.hash(productCode, category, price, name, description);
     }
 }

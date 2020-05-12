@@ -33,8 +33,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product findProductByProductNumber(Long productNumber) {
-        return productRepository.findByProductNumber(productNumber);
+    public Product findProductByProductCode(String productCode) {
+        return productRepository.findByProductCode(productCode);
     }
 
     @Override
@@ -45,18 +45,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateProduct(Long productNumber, Product product) {
+    public Product updateProduct(String productNumber, Product product) {
         validateCategory(product.getCategory());
 
-        Product foundProduct = productRepository.findByProductNumber(productNumber);
-        Product updatedProduct = new Product(foundProduct.getId(), product.getProductNumber(), product.getCategory(), product.getPrice(), product.getName(), product.getDescription());
+        Product foundProduct = productRepository.findByProductCode(productNumber);
+        Product updatedProduct = new Product(foundProduct.getId(), product.getProductCode(), product.getCategory(), product.getPrice(), product.getName(), product.getDescription());
 
         return productRepository.save(updatedProduct);
     }
 
     @Override
-    public void deleteProduct(Long productNumber) {
-        Product product = productRepository.findByProductNumber(productNumber);
+    public void deleteProduct(String productCode) {
+        Product product = productRepository.findByProductCode(productCode);
         productRepository.delete(product);
     }
 
