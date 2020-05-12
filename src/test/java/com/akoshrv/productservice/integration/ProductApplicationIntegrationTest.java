@@ -65,7 +65,7 @@ public class ProductApplicationIntegrationTest {
     public void getOneShouldReturnSingleProduct() throws Exception {
         saveTestProductsToDatabase(PRODUCT_1, PRODUCT_2);
 
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/product/{productCode}", PRODUCT_1.getProductCode())
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/products/{category}/{productCode}", PRODUCT_1.getCategory(), PRODUCT_1.getProductCode())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -95,7 +95,7 @@ public class ProductApplicationIntegrationTest {
 
         saveTestProductsToDatabase(PRODUCT_1, PRODUCT_2);
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/product/{productCode}", updatedProduct.getProductCode())
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/product/{category}/{productCode}", updatedProduct.getCategory(), updatedProduct.getProductCode())
                 .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(updatedProduct)))
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
@@ -107,7 +107,7 @@ public class ProductApplicationIntegrationTest {
     public void deleteShouldDeleteProduct() throws Exception {
         saveTestProductsToDatabase(PRODUCT_1, PRODUCT_2);
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/product/{productCode}", PRODUCT_1.getProductCode()))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/product/{category}/{productCode}", PRODUCT_1.getCategory(), PRODUCT_1.getProductCode()))
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
         List<Product> result = productRepository.findAll();
